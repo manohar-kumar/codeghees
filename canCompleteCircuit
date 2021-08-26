@@ -1,0 +1,34 @@
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        bonus = []
+        for i in range(len(gas)):
+            bonus.append(gas[i]-cost[i]);
+        
+        index = 0
+        counter = 0
+        answer = -1
+        hitend = 0
+        while True:
+            if (index == answer):
+                return answer
+            if (answer != -1):
+                counter += bonus[index]
+                if (counter < 0):
+                    answer = -1
+                                       
+            elif (bonus[index] >= 0):
+                answer = index
+                counter = bonus[index]
+            
+            if (index == len(gas)-1):
+                if (hitend != 0):
+                    break;
+                hitend += 1
+                index = 0
+            else:
+                index += 1
+        
+        return -1
+            
+            
+        
