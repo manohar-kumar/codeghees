@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int hashmap[256];
+        int currentCounter = 0, answer = 0;
+        for (int i = 0;i < 256;i++)
+        {
+            hashmap[i] = -1;
+        }
+        
+        for (int i=0;i<s.length();i++)
+        {
+            int index = s[i] - (char)0;
+            if (hashmap[index] == -1)
+            {
+                hashmap[index] = i;
+            }
+            else{
+                if (hashmap[index] + 1 > currentCounter)
+                currentCounter = hashmap[index] + 1;
+                hashmap[index] = i;
+            }
+            
+            if ((i-currentCounter+1) > answer) answer = (i-currentCounter+1);
+        }
+        
+        return answer;
+    }
+};
