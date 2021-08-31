@@ -1,0 +1,22 @@
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        answer = []
+        self.generateHelper(n,n, answer, "")
+        return answer
+    
+    def generateHelper(self, i: int, j: int, answer: List[str], generator: str):
+        if (i==0 and j==0):
+            answer.append(generator)
+            return
+        else:
+            copier = ''.join(generator)
+            if (i > 0):
+                generator = generator + '('
+                self.generateHelper(i-1,j,answer, generator)
+            if (j > i):
+                copier = copier + ')'
+                self.generateHelper(i,j-1,answer,copier)
+            
+                
+    
+        
