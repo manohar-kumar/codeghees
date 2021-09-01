@@ -1,0 +1,17 @@
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        if (len(nums) == 1):
+            return 0
+        dp = []
+        for i in range(0,len(nums)-1):
+            dp.append(1000000000)
+        dp.append(0)
+        for j in range(1,len(nums)):
+            reverseIndex = len(nums) - j - 1
+            for i in range(0,nums[reverseIndex]+1):
+                if (i == 0 or (i + reverseIndex > len(nums) - 1)):
+                    continue
+                else:
+                    if (1 + dp[i+reverseIndex] < dp[reverseIndex]):
+                        dp[reverseIndex] = 1 + dp[i + reverseIndex]
+        return dp[0]
