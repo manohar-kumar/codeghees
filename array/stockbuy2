@@ -1,0 +1,11 @@
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        lastprice = 10000000
+        sum = 0
+        for price in prices:
+            if (price > lastprice):
+                sum+= (price-lastprice)
+            lastprice = price
+        return sum
+            
+        
