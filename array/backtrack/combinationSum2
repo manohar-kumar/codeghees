@@ -1,0 +1,34 @@
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        counters = {}
+        for num in candidates:
+            if num in counters:
+                counters[num]+=1
+            else:
+                counters[num] = 1
+        
+        sortedCounters = []
+        for k,v in sorted(counters.items()):
+            sortedCounters.append([k,v])
+        solution = []
+        current = []
+        self.combHelper(sortedCounters, 0, target, solution, current, 0)
+        return solution
+        
+    def combHelper(self, sortedCounter: List[List[int]], index: int, target: int, solution: List[List[int]], current: List[int], currSum: int):
+        if (currSum == target):
+            solution.append(current)
+            return
+        if (index >= len(sortedCounter) or currSum > target):
+            return
+        x = sortedCounter[index]
+        for y in range(0,x[1]+1):
+            myarr = [x[0]] * y
+            copyCurrent = list(current)
+            for z in myarr:
+                copyCurrent.append(z)
+            if ((currSum + y*x[0]) <= target):
+                self.combHelper(sortedCounter, index+1, target, solution, copyCurrent, currSum + y*x[0])
+                
+        
+        
