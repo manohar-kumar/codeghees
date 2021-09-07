@@ -1,0 +1,40 @@
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        i = 0
+        j = 0
+        m = len(matrix)
+        n = len(matrix[0])
+        direction = 'r'
+        counter = 0
+        result = []
+        changedir = False
+        while True:
+            result.append(matrix[i][j])
+            matrix[i][j] = -12345
+            counter+=1
+            if (counter == m*n):
+                break
+            if (direction == 'r'):
+                if (j+1 >= n or matrix[i][j+1] == -12345):
+                    direction = 'd'
+                else:
+                    j+=1
+            if (direction == 'd'):
+                if (i+1 >= m or matrix[i+1][j] == -12345):
+                    direction = 'l'
+                else:
+                    i+=1
+            if (direction == 'l'):
+                if (j-1 < 0 or matrix[i][j-1] == -12345):
+                    direction = 'u'
+                else:
+                    j-=1
+            if (direction == 'u'):
+                if (i-1 < 0 or matrix[i-1][j] == -12345):
+                    #go right
+                    direction = 'r'
+                    j+=1
+                else:
+                    i-=1
+                
+        return result
