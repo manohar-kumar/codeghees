@@ -1,0 +1,40 @@
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        hashmap = {}
+        count = 0
+        maximum = 0
+        for num in nums:
+            if num not in hashmap:
+                if num-1 in hashmap and num+1 in hashmap:
+                    hashmap[hashmap[num-1][0]][1] = hashmap[num+1][1]
+                    #update count
+                    hashmap[hashmap[num-1][0]][2] += hashmap[hashmap[num+1][1]][2] + 1
+                    #update for right side
+                    hashmap[hashmap[num+1][1]][0] = hashmap[num-1][0]
+                    #update count
+                    hashmap[hashmap[num+1][1]][2] = hashmap[hashmap[num-1][0]][2]
+                    count = hashmap[hashmap[num+1][1]][2]
+                    hashmap[num] = [num,num,count]
+                elif num-1 in hashmap:
+                    hashmap[hashmap[num-1][0]][1] = num
+                    #update count
+                    hashmap[hashmap[num-1][0]][2] += 1
+                    #update current
+                    hashmap[num] = [hashmap[num-1][0],num,hashmap[hashmap[num-1][0]][2]]
+                    count = hashmap[hashmap[num-1][0]][2]
+                elif num+1 in hashmap:
+                    hashmap[hashmap[num+1][1]][0] = num
+                    #update count
+                    hashmap[hashmap[num+1][1]][2] += 1
+                    #update current
+                    hashmap[num] = [num, hashmap[num+1][1],hashmap[hashmap[num+1][1]][2]]
+                    count = hashmap[hashmap[num+1][1]][2]
+                else:
+                    hashmap[num] = [num, num, 1]
+                    count = 1
+                if count > maximum:
+                    maximum = count
+        return maximum
+            
+                    
+                            
