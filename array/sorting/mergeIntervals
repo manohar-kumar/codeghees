@@ -1,0 +1,18 @@
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort()
+        answer = []
+        curr_left = -1
+        curr_right = -1
+        for elem in intervals:
+            if (elem[0] > curr_right):
+                if (curr_right != -1):
+                    answer.append([curr_left,curr_right])
+                curr_left = elem[0]
+                curr_right = elem[1]
+            else:
+                if (elem[1] > curr_right):
+                    curr_right = elem[1]
+        answer.append([curr_left,curr_right])
+        return answer
+                
