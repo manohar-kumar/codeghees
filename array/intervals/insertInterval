@@ -1,0 +1,27 @@
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        n = len(intervals)
+        leftItem = 0
+        while(leftItem < n and intervals[leftItem][0] <= newInterval[0]):
+            leftItem +=1
+        newList = []
+        iterator = 0
+        while (iterator < leftItem):
+            newList.append(intervals[iterator])
+            iterator += 1
+        if (leftItem == 0):
+            newList.append(newInterval)
+        elif (newList[-1][1] < newInterval[0]):
+            newList.append(newInterval)
+        elif (newList[-1][1] >= newInterval[0] and newList[-1][1] < newInterval[1]):
+            newList[-1][1] = newInterval[1]
+          
+        while (iterator < n):
+            if (intervals[iterator][0] > newInterval[1]):
+                newList.append(intervals[iterator])
+            if (intervals[iterator][0] <= newInterval[1] and intervals[iterator][1] > newInterval[1]):
+                newInterval[1] = intervals[iterator][1] 
+                newList[-1][1] = newInterval[1]
+            iterator+=1
+        
+        return newList
