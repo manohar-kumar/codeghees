@@ -1,1 +1,2 @@
 Sorting list of list in python: intervals.sort(key=lambda x: x[0])
+Copy list in python - list2 = list1[:]
