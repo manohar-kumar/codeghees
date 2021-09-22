@@ -1,0 +1,27 @@
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        myDict = {}
+        for num in nums:
+            if num in myDict:
+                myDict[num] += 1
+            else:
+                myDict[num] = 1
+        hasher = []
+        for key in myDict:
+            hasher.append([key,myDict[key]])
+        solution = []            
+        self.recurse(hasher, [], 0, solution)
+        return solution
+        
+    
+    def recurse(self, hasher: List[List[int]], currList: List[int], currIndex: int, solution: List[List[int]]):
+        if (currIndex >= len(hasher)):
+            solution.append(currList)
+        else:
+            for i in range(hasher[currIndex][1]+1):
+                newList = currList[:]
+                newList.extend([hasher[currIndex][0]] * i)
+                self.recurse(hasher, newList, currIndex+1, solution)
+            
+        
+            
