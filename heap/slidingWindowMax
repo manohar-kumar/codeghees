@@ -1,0 +1,30 @@
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        for i in range(len(nums)):
+            nums[i] = -nums[i]
+        
+        counters = {}
+        heap = []
+        solution = []
+        for i in range(k-1):
+            if (nums[i] in counters):
+                counters[nums[i]] += 1
+            else:
+                counters[nums[i]] = 1
+            heap.append(nums[i])
+        heapq.heapify(heap)
+        for i in range(k-1,len(nums)):
+            if (i-k >= 0):
+                counters[nums[i-k]] -= 1
+            if (nums[i] in counters):
+                counters[nums[i]] += 1
+            else:
+                counters[nums[i]] = 1
+            heapq.heappush(heap,nums[i])
+            while (counters[heap[0]] < 1):
+                heapq.heappop(heap)
+            solution.append(-heap[0])
+        
+        return solution
+            
+        
