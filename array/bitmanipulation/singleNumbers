@@ -1,0 +1,23 @@
+class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        allXor = 0
+        for num in nums:
+            allXor = allXor ^ num
+        
+        count = 0
+        while (allXor%2 == 0):
+            allXor = allXor/2
+            count+=1
+        xor1, xor2 = 0,0
+        for num in nums:
+            numCopy = num
+            myCount = count
+            while (myCount > 0):
+                numCopy = numCopy >> 1
+                myCount-=1
+            if (numCopy %2 == 0):
+                xor1 = xor1 ^ num
+            else:
+                xor2 = xor2 ^ num
+        
+        return [xor1,xor2]
