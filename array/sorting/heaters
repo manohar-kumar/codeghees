@@ -1,0 +1,32 @@
+class Solution:
+    def findRadius(self, houses: List[int], heaters: List[int]) -> int:
+        total = []
+        for house in houses:
+            total.append([house,-1])
+        for heater in heaters:
+            total.append([heater,0])
+        
+        total.sort()
+        heater,house = 0,0
+        maxi = 0
+        lastHeater = 0
+        for entry in total:
+            if (entry[1] != 0):
+                if (lastHeater != 0):
+                    entry[1] = (entry[0] - lastHeater)
+            else:
+                lastHeater = entry[0]
+        
+        lastHeater = 0
+        for i in range(len(total)-1,-1,-1):
+            entry = total[i]
+            if (entry[1] != 0):
+                if (lastHeater != 0):
+                    entry[1] = (lastHeater-entry[0]) if entry[1] == -1 else min(entry[1],(lastHeater-entry[0]))
+                maxi = max(maxi, entry[1])
+            else:
+                lastHeater = entry[0]
+        
+        return maxi
+        
+                
