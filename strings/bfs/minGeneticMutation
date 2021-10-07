@@ -1,0 +1,35 @@
+class Solution:
+    def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+        hasher = {}
+        for s in bank:
+            hasher[s] = -1
+        
+        bfs = []
+        bfs.append([start,0])
+        
+        while True:
+            topper = bfs.pop(0)
+            for s in bank:
+                if self.oneDiff(topper[0], s) and hasher[s] == -1:
+                    if (s == end):
+                        return 1 + topper[1]
+                    bfs.append([s,topper[1]+1])
+                    hasher[s] = 1+topper[1]
+            allreached = True
+            for key in hasher:
+                if hasher[key] == -1:
+                    allreached = False
+                    break
+            if (allreached):
+                return -1
+            if (len(bfs) == 0):
+                return -1
+    
+    def oneDiff(self, str1: str, str2: str) -> bool:
+        counter = 0
+        for i in range(len(str1)):
+            if str1[i] != str2[i]:
+                counter += 1
+                
+        return counter == 1
+        
