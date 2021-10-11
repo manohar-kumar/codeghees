@@ -1,0 +1,36 @@
+class Solution:
+    def simplifyPath(self, path: str) -> str:
+        stack = []
+        begin = False
+        substr = ""
+        path += '/'
+        for char in path:
+            if char == '/':
+                #start reading
+                if (substr == ""):
+                    #do nothing
+                    pass
+                elif substr == "..":
+                    if (len(stack) > 0):
+                        stack.pop()
+                elif substr == ".":
+                    pass
+                    #do nothing
+                else:
+                    #its a file
+                    stack.append(substr)
+                substr = ""
+            else:
+                substr += char
+                
+        answer = ""
+        if not stack:
+            return "/"
+        for string in stack:
+            answer += "/"
+            answer += string
+        
+        return answer
+                
+            
+                
