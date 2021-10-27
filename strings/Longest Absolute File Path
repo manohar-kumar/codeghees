@@ -1,0 +1,35 @@
+class Solution:
+    def lengthLongestPath(self, input: str) -> int:
+        maxIndex = {}
+        stack = []
+        myfiles = input.split("\n")
+        #only files case
+
+        print(myfiles)
+        for entry in myfiles:
+            key = entry.count("\t")
+            stack.append([entry.replace("\t",""),key])
+
+        print(stack)
+        while (len(stack) > 0):
+            elem = stack.pop()
+            if (elem[1]+1) in maxIndex and maxIndex[elem[1]+1] > 0:
+                curr_len = maxIndex[elem[1]+1] + len(elem[0]) + 1
+                if (elem[1] in maxIndex):
+                    maxIndex[elem[1]] = max(maxIndex[elem[1]], curr_len)
+                else:
+                    maxIndex[elem[1]] = curr_len
+                maxIndex[elem[1] + 1] = 0
+            elif '.' in elem[0]:
+                if (elem[1] in maxIndex):
+                    maxIndex[elem[1]] = max(maxIndex[elem[1]], len(elem[0]))
+                else:
+                    maxIndex[elem[1]] = len(elem[0])
+        if (0 in maxIndex):
+            return maxIndex[0]
+        else:
+            return 0
+                
+        
+                
+                    
