@@ -1,0 +1,28 @@
+class Solution:
+    def maxWidthRamp(self, nums: List[int]) -> int:
+        ascendingList = []
+        maxer = -1
+        for i in range(len(nums)-1,-1,-1):
+            if (nums[i] > maxer):
+                ascendingList.append([nums[i],i])
+                maxer = nums[i]
+        
+        firstPointer = 0
+        secondPointer,answer = 0,0
+        
+        secondPointer = len(ascendingList)-1
+        while (firstPointer < len(nums)):  
+            if (firstPointer > ascendingList[secondPointer][1]):
+                secondPointer-=1;
+            while(nums[firstPointer] <= ascendingList[secondPointer][0]):
+                answer = max(answer, ascendingList[secondPointer][1] - firstPointer)
+                if (secondPointer == 0):
+                    break
+                secondPointer -= 1
+            firstPointer += 1
+            
+        return answer
+                
+            
+            
+        
