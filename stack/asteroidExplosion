@@ -1,0 +1,23 @@
+class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        mystack = []
+        for asteroid in asteroids:
+            if (len(mystack) == 0 or asteroid > 0):
+                mystack.append(asteroid)
+            else:
+                explosion = False
+                while (len(mystack) > 0 and (mystack[-1] > 0) and abs(asteroid) >= abs(mystack[-1])):
+                    topper = mystack.pop()
+                    if (abs(asteroid) == abs(topper)):
+                        explosion = True
+                        break;
+                        
+                if (not explosion and (len(mystack) == 0 or asteroid * mystack[-1] > 0)):
+                    mystack.append(asteroid)
+            
+        return mystack
+                
+                        
+                        
+                    
+            
