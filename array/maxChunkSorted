@@ -1,0 +1,14 @@
+class Solution:
+    def maxChunksToSorted(self, arr: List[int]) -> int:
+        n = len(arr)
+        mini,maxi = n+1,-1
+        minGoal,numPart = 0,0
+        for i in range(n):
+            mini = min(mini, arr[i])
+            maxi = max(maxi, arr[i])
+            if (mini == minGoal and maxi == i):
+                numPart += 1
+                minGoal = (i+1)
+                mini = n+1
+        
+        return numPart
