@@ -1,0 +1,38 @@
+class Solution:
+    def maxSumMinProduct(self, nums: List[int]) -> int:
+        leftStack,rightStack = [[-1,-1]],[[-1,-1]]
+        myStorage = []
+        summer = 0
+        for num in nums:
+            summer += num
+            myStorage.append([num,summer,0,0])
+        
+        for i in range(len(nums)):
+            num = nums[i]
+            while (len(leftStack) > 0 and num <= leftStack[-1][0]):
+                leftStack.pop()
+                
+            myStorage[i][2] = leftStack[-1][1]
+            leftStack.append([num,i])
+        
+        for i in range(len(nums)-1,-1,-1):
+            num = nums[i]
+            while (len(rightStack) > 0 and num <= rightStack[-1][0]):
+                rightStack.pop()
+                
+            myStorage[i][3] = rightStack[-1][1]
+            rightStack.append([num,i])
+        
+        answer = 0
+        for i in range(len(nums)):
+            leftSide = myStorage[myStorage[i][2]][1] if myStorage[i][2] >= 0 else 0
+            rightSide = myStorage[myStorage[i][3]-1][1] if myStorage[i][3] >= 0 else myStorage[len(nums)-1][1]
+            currentSolution = nums[i]*(rightSide - leftSide)
+            answer = max(answer, currentSolution)
+            
+        
+        return answer%1000000007
+            
+            
+                
+        
