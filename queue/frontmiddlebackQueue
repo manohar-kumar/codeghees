@@ -1,0 +1,138 @@
+class Node:
+    def __init__(self, dataval=None):
+        self.val = dataval
+        self.nextval = None
+        self.prevval = None
+
+class FrontMiddleBackQueue:
+
+    def __init__(self):
+        self.head = None
+        self.mid = None
+        self.last = None
+        self.count = 0
+    def print(self) -> None:
+        print(self.head.val, self.mid.val, self.last.val, self.count)
+        
+    def firstElem(self, val: int) -> None:
+        self.count = 1
+        noder = Node(val)
+        self.head = self.mid = self.last = noder
+    def pushFront(self, val: int) -> None:
+        if (self.count == 0):
+            return self.firstElem(val)
+        self.count += 1
+        noder = Node(val)
+        noder.nextval = self.head
+        if (self.head is not None):
+            self.head.prevval = noder
+        self.head = noder
+
+        if (self.count % 2 == 0):
+            self.mid = self.mid.prevval
+        self.print()
+
+    def pushMiddle(self, val: int) -> None:
+        if (self.count == 0):
+            return self.firstElem(val)
+        self.count += 1
+        noder = Node(val)
+        
+        if (self.count % 2 == 0):
+            noder.nextval = self.mid
+            if (self.mid.prevval is not None):
+                self.mid.prevval.nextval = noder
+            noder.prevval = self.mid.prevval
+            self.mid.prevval = noder
+            
+        else:
+            noder.nextval = self.mid.nextval
+            if (self.mid.nextval is not None):
+                self.mid.nextval.prevval = noder
+            self.mid.nextval = noder
+            noder.prevval = self.mid
+        self.mid = noder   
+        if (self.count == 2):
+            self.head = self.mid
+        self.print()
+
+    def pushBack(self, val: int) -> None:
+        if (self.count == 0):
+            return self.firstElem(val)
+        self.count += 1
+        noder = Node(val)
+        
+        noder.prevval = self.last
+        self.last.nextval = noder
+        
+        self.last = noder
+        if (self.count % 2 == 1):
+            self.mid = self.mid.nextval
+        self.print()
+    
+    def lastElem(self) -> int:
+        if (self.head is None):
+            return -1
+        ans = self.head.val
+        self.count = 0
+        self.head = self.mid = self.last = None
+        print(ans)
+        return ans
+    
+    def popFront(self) -> int:
+        if (self.count <= 1):
+            return self.lastElem()
+        self.count -= 1
+        value = self.head.val
+        self.head = self.head.nextval
+        self.head.prevval = None
+        
+        if (self.count % 2 == 1):
+            self.mid = self.mid.nextval
+        self.print()
+        return value
+        
+    def popMiddle(self) -> int:
+        if (self.count <= 1):
+            return self.lastElem()
+        self.count -= 1
+        value = self.mid.val
+        if (self.count % 2 == 0):
+            temp = self.mid.nextval
+            self.mid = self.mid.prevval
+            self.mid.nextval = temp
+            if (self.mid.nextval is not None):
+                self.mid.nextval.prevval = self.mid
+        else:
+            temp = self.mid.prevval
+            if (self.mid.prevval is not None):
+                self.mid.prevval.nextval = self.mid.nextval
+            self.mid = self.mid.nextval
+            self.mid.prevval = temp
+        
+        if (self.count == 1):
+            self.head = self.mid
+        self.print()
+        return value
+    
+    def popBack(self) -> int:
+        if (self.count <= 1):
+            return self.lastElem()
+        self.count -= 1
+        value = self.last.val
+        self.last = self.last.prevval
+        self.last.nextval = None
+        
+        if (self.count % 2 == 0):
+            self.mid = self.mid.prevval
+        self.print()
+        return value
+
+# Your FrontMiddleBackQueue object will be instantiated and called as such:
+# obj = FrontMiddleBackQueue()
+# obj.pushFront(val)
+# obj.pushMiddle(val)
+# obj.pushBack(val)
+# param_4 = obj.popFront()
+# param_5 = obj.popMiddle()
+# param_6 = obj.popBack()
