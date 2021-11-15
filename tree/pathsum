@@ -1,0 +1,29 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def recurse(self, root: Optional[TreeNode], leftSum: int, listTillNow: List[int], solution: List[List[int]]):
+        if (root is None):
+            return
+        
+        elif (root.left is None and root.right is None):
+            if (leftSum == root.val):
+                listTillNow.append(root.val)
+                solution.append(listTillNow[:])
+                listTillNow.pop()
+        else:
+            listTillNow.append(root.val)
+            self.recurse(root.left, leftSum - root.val, listTillNow, solution)
+            self.recurse(root.right, leftSum - root.val, listTillNow, solution)
+            listTillNow.pop()
+            
+                
+    
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        solution = []
+        listTillNow = []
+        self.recurse(root, targetSum, listTillNow, solution)
+        return solution
