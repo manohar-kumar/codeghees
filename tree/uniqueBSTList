@@ -1,0 +1,38 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def generateTrees(self, n: int) -> List[Optional[TreeNode]]:
+        if n == 1:
+            return [TreeNode(1)]
+        else:
+            solution = []
+            subTrees = self.generateTrees(n-1)
+            for subTree in subTrees:
+                myRoot = TreeNode(n)
+                myRoot.left = subTree
+                solution.append(myRoot)
+                temp = subTree
+                counter = 1
+                while (temp.right is not None):
+                    counter += 1
+                    temp = temp.right
+                while (counter > 0):
+                    counter -= 1
+                    newSubTree = copy.deepcopy(subTree)
+                    count = counter
+                    tempo = newSubTree
+                    while (count > 0):
+                        count -= 1
+                        tempo = tempo.right
+                    newRoot = TreeNode(n)
+                    newRoot.left = tempo.right
+                    tempo.right = newRoot
+                    solution.append(newSubTree)
+            return solution
+                    
+                
+                    
