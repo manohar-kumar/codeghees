@@ -1,0 +1,44 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
+        def largestStraightPathYet(root: Optional[TreeNode]):     
+            if (root is None): 
+                return 0,0
+            else :
+                findLeft, solutionByRef = largestStraightPathYet(root.left)
+                findRight, solutionByRefRight = largestStraightPathYet(root.right)
+                solutionByRef = max(solutionByRef, solutionByRefRight)
+                if (root.left is not None and root.right is not None):
+                    if (root.left.val == root.val and root.right.val == root.val):
+                        solutionByRef = max(solutionByRef, 2 + findLeft + findRight)
+                        return 1 + max(findLeft,findRight),solutionByRef
+                    elif (root.left.val == root.val):
+                        solutionByRef = max(solutionByRef, 1 + findLeft)
+                        return 1 + findLeft,solutionByRef
+                    elif (root.right.val == root.val):
+                        solutionByRef = max(solutionByRef, 1 + findRight)
+                        return 1 + findRight,solutionByRef
+                    else:
+                        return 0,solutionByRef
+                elif (root.left is not None):
+                    if (root.left.val == root.val):
+                        solutionByRef = max(solutionByRef, 1 + findLeft)
+                        return 1 + findLeft,solutionByRef
+                    else:
+                        return 0,solutionByRef
+                elif (root.right is not None):
+                    if (root.right.val == root.val):
+                        solutionByRef = max(solutionByRef, 1 + findRight)
+                        return 1 + findRight,solutionByRef
+                    else:
+                        return 0,solutionByRef
+                else:
+                    return 0,solutionByRef
+        arbit, soln = largestStraightPathYet(root)
+        return soln
+            
