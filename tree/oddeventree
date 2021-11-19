@@ -1,0 +1,38 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isEvenOddTree(self, root: Optional[TreeNode]) -> bool:
+        myqueue = []
+        level = 0
+        myqueue.append(root)
+        count = 1
+        while (len(myqueue) > 0):
+            lastelement = -1234567 if level%2 == 0 else 12345678
+            newCount = 0
+            while (count > 0):
+                topper = myqueue.pop(0)
+                count -= 1
+                if (level % 2 == 0):
+                    if (topper.val % 2 == 0 or topper.val <= lastelement):
+                        return False
+                else:
+                    if (topper.val % 2 == 1 or topper.val >= lastelement):
+                        return False
+                lastelement = topper.val
+                if (topper.left is not None):
+                    myqueue.append(topper.left)
+                    newCount += 1
+                if (topper.right is not None):
+                    myqueue.append(topper.right)
+                    newCount += 1
+            level += 1
+            count = newCount 
+        return True
+                
+                    
+            
+        
