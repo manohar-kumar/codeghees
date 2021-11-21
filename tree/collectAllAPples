@@ -1,0 +1,25 @@
+class Solution:
+    def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
+        visited = [False for i in range(n)]
+        adjacency = [[] for i in range(n)]
+        for edge in edges:
+            adjacency[edge[0]].append(edge[1])
+            adjacency[edge[1]].append(edge[0])
+        
+        self.answer = 0
+        def dfs(i: int, length: int) -> bool:
+            if (hasApple[i]):
+                self.answer += length*2
+            
+            visited[i] = True
+            foundApple = hasApple[i]
+            
+            for edge in adjacency[i]:
+                if (visited[edge] is False):
+                    newlength = length+1 if foundApple == False else 1
+                    foundApple = dfs(edge, newlength) or foundApple
+                
+            return foundApple                   
+        
+        dfs(0, 0)
+        return self.answer
