@@ -1,0 +1,30 @@
+class Solution:
+
+	'''
+	A BST node is defined as:
+
+	class Node:
+		def __init__(self, data=None, left=None, right=None):
+			self.data = data	# data field
+			self.left = left	# pointer to the left child
+			self.right = right	# pointer to the right child
+	'''
+
+	def findInorderSuccessor(self, root: Node, x: Node) -> Node:
+		# Write your code here...
+		if (root is None):
+			return None
+		if (root.data <= x.data):
+			return self.findInorderSuccessor(root.right, x)
+		else:
+			# left side
+			leftAnswer = self.findInorderSuccessor(root.left, x)
+			if (leftAnswer is None):
+				return root
+			elif (leftAnswer.data == x.data):
+				return root
+			else:
+				return leftAnswer
+			
+		return None
+
