@@ -1,0 +1,19 @@
+class Solution:
+    def maxCompatibilitySum(self, students: List[List[int]], mentors: List[List[int]]) -> int:
+        self.score = 0
+        size = len(mentors)
+        def helper(done: List[int], current: int, sumTillNow: int):
+            if (current == size):
+                self.score = max(self.score, sumTillNow)
+                return
+            else:
+                for x in range(size):
+                    if x in done:
+                        continue
+                    else:
+                        value = sum(not students[current][i]^mentors[x][i] for i in range(len(students[0])))
+                        newArr = done[:]
+                        newArr.append(x)
+                        helper(newArr, current+1, sumTillNow+value) 
+        helper([],0,0)
+        return self.score
