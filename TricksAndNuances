@@ -1,3 +1,4 @@
 Sorting list of list in python: intervals.sort(key=lambda x: x[0])
 Copy list in python - list2 = list1[:]
 Modify string char by char -> l = list(myString); l[-1] = 'f'; ''.join(l)
+https://docs.python.org/3/library/heapq.html
