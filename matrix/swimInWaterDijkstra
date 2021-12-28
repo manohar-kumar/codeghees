@@ -1,0 +1,23 @@
+class Solution:
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        heap = []
+        m = len(grid)
+        n = len(grid[0])
+        answer = 0
+        visited = {}
+        heap.append((grid[0][0],0,0))
+        while (heap):
+            val,r,c = heapq.heappop(heap)
+            answer = max(answer,val)
+            if (r == m-1 and c == n-1):
+                return answer
+            visited[(r,c)] = 1
+            
+            for x,y in [(1,0),(-1,0),(0,1),(0,-1)]:
+                if (r + x >= 0 and r+x < m and c + y >= 0 and c+ y < n and (r+x,c+y) not in visited):
+                    heapq.heappush(heap, (grid[r+x][c+y],r+x,c+y))
+                    
+        
+        return answer
+            
+        
