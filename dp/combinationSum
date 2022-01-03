@@ -1,0 +1,19 @@
+class Solution:
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        dp = [-1 for x in range(target+1)]
+        
+        def recurse(current: int) -> int:
+            if (current == 0):
+                return 1
+            elif (current < 0):
+                return 0
+            elif dp[current] != -1:
+                return dp[current]
+            else:
+                dp[current] = 0
+                for num in nums:
+                    dp[current] += recurse(current-num)
+                return dp[current]
+        
+        return recurse(target)
