@@ -1,0 +1,28 @@
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [-2 for x in range(amount+1)]
+        coins.sort()
+        
+        def recurse(current: int) -> int:
+            if current < 0:
+                return -1
+            elif current == 0:
+                return 0
+            elif (dp[current] != -2):
+                return dp[current]
+
+            mini = amount+1
+            for coin in coins:
+                findAnswer = recurse(current - coin)
+                findAnswer = -1 if findAnswer == -1 else findAnswer+1
+                if findAnswer != -1:
+                    mini = min(mini, findAnswer)
+            if (mini == amount+1):
+                mini = -1
+            dp[current] = mini
+            return dp[current]
+        
+        answer = recurse(amount)
+        return answer
+        
+        
