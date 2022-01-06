@@ -1,0 +1,27 @@
+class Solution:
+    def mctFromLeafValues(self, arr: List[int]) -> int:
+        n = len(arr)
+        dp = [[(-1,-1) for i in range(n)] for j in range(n)]
+        for i in range(n):
+            dp[i][i] = (arr[i],0)
+            
+        def recurse(begin:int, end:int):
+            if (dp[begin][end][0] != -1):
+                return dp[begin][end]
+            
+            minimum,maxL,maxR = 123456789,0,0
+            for i in range(begin,end):
+                maxLeft,sumLeft = recurse(begin,i)
+                maxRight,sumRight = recurse(i+1,end)
+                currProd = maxLeft*maxRight
+                if (sumLeft+sumRight+currProd < minimum):
+                    minimum = sumLeft + sumRight + currProd
+                    maxL = maxLeft
+                    maxR = maxRight
+            dp[begin][end] = (max(maxL,maxR),minimum)
+            return dp[begin][end]
+        ans = recurse(0,n-1)
+      #  print(dp)
+        return ans[1]
+            
+                
