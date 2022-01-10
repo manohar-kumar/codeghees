@@ -1,0 +1,17 @@
+class Solution:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        intervals.sort()
+        answer,currL,currR, = 0, intervals[0][0], intervals[0][1]
+        for interval in intervals[1:]:
+            if (interval[0] >= currR):
+                currL = interval[0]
+                currR = interval[1]
+                continue
+            elif(interval[1] <= currR):
+                currL = interval[0]
+                currR = interval[1]
+                answer += 1
+            else:
+                answer += 1
+                
+        return answer
