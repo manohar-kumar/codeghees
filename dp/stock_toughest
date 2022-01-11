@@ -1,0 +1,31 @@
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        n = len(prices)
+        if n == 0 or k == 0:
+            return 0
+        dp = [[] for x in range(n)]
+        dp[0] = [[0,0]]
+        for i in range(1,n):
+            lastVal = []
+            for x in range(len(dp[i-1])):
+                entry = dp[i-1][x]
+                if (prices[i] <= prices[entry[0]] or entry[0] == -1):
+                    dp[i].append([i,entry[1]])
+                else:
+                    additive = 0
+                    if (entry[0] >= 1 and x >= 1):
+                        additive = dp[entry[0]- 1][x-1][1] 
+                    curr_min = entry[0]
+                    if (x >= 1 and additive - prices[curr_min] < dp[i-1][x-1][1] - prices[i]):
+                        curr_min = i
+                    dp[i].append([curr_min,max(entry[1],prices[i]-prices[entry[0]] + additive)])
+                    if (x == len(dp[i-1]) - 1 and x < k-1):
+                        dp[i].append([-1,dp[i][-1][1]])
+                        
+       # print(dp)
+        return max([dp[n-1][x][1] for x in range(len(dp[n-1]))])
+                
+                    
+                    
+        
+        
