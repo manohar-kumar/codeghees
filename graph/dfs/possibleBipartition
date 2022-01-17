@@ -1,0 +1,24 @@
+class Solution:
+    def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
+        marked = [-1 for i in range(n)]
+        adjacency = [[] for i in range(n)]
+        for pair in dislikes:
+            adjacency[pair[0]-1].append(pair[1]-1)
+            adjacency[pair[1]-1].append(pair[0]-1)
+        
+        for i in range(n):
+            stack = []
+            if (marked[i] == -1):
+                stack.append(i)
+                marked[i] = 0
+                while stack:
+                    topper = stack.pop()
+                    for edge in adjacency[topper]:
+                        if (marked[edge] == marked[topper]):
+                            return False
+                        elif (marked[edge] == -1):
+                            marked[edge] = not marked[topper]
+                            stack.append(edge)
+        
+        return True
+                
