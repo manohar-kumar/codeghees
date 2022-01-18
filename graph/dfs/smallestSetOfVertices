@@ -1,0 +1,22 @@
+class Solution:
+    def findSmallestSetOfVertices(self, n: int, edges: List[List[int]]) -> List[int]:
+        adjacency = [[] for i in range(n)]
+        for edge in edges:
+            adjacency[edge[0]].append(edge[1])
+            
+        answer = set()
+        visited = {}
+        for i in range(n):
+            if i not in visited:
+                stack = []
+                stack.append(i)
+                answer.add(i)
+                while stack:
+                    top = stack.pop()
+                    visited[top] = 0
+                    for x in adjacency[top]:
+                        if (x in answer):
+                            answer.remove(x)
+                        if x not in visited:
+                            stack.append(x)
+        return list(answer)
