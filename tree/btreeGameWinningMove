@@ -1,0 +1,44 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def btreeGameWinningMove(self, root: Optional[TreeNode], n: int, x: int) -> bool:
+        def findNode(root:Optional[TreeNode], x) -> int:
+            if (root is None):
+                return None
+            elif (x == root.val):
+                return root
+            else:
+                rightAns = findNode(root.right,x)
+                if (rightAns is not None):
+                    return rightAns
+                else:
+                    return findNode(root.left,x)
+                
+        def findCount(root: Optional[TreeNode]) -> int:
+            if (root is None):
+                return 0
+            return 1 + findCount(root.left) + findCount(root.right)
+        findX = findNode(root,x)
+        if findX is root:
+            if (findCount(root.left) != findCount(root.right)):
+                return True
+            else:
+                return False
+        else:
+            xCounter = findCount(findX)
+            if (n-xCounter > xCounter):
+                return True
+            else:
+                leftCount = findCount(findX.left)
+                if leftCount > n-leftCount:
+                    return True
+                else:
+                    rightCount = findCount(findX.right)
+                    if rightCount > n-rightCount:
+                        return True    
+                    else:
+                        return False
