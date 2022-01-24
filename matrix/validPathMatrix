@@ -1,0 +1,80 @@
+class Solution:
+    def hasValidPath(self, grid: List[List[int]]) -> bool:
+        m,n = len(grid), len(grid[0])
+        #direction = 1(left),2(right),3(up),4(down)
+        def validFromCurrent(x: int, y : int,direction: int) -> bool:
+           # print(x,y,direction)
+            
+            if (x < 0 or y < 0 or x >= m or y >= n):
+                return False
+            else:
+                copyVal = grid[x][y]
+                if (grid[x][y] == -1):
+                    return False
+                else: 
+                    if (x != 0 or y != 0):
+                        grid[x][y] = -1
+                if (direction == 1):
+                    if (copyVal != 1 and copyVal != 3 and copyVal != 5):
+                        grid[x][y] = copyVal
+                        return False
+                    elif (x == m-1 and y == n-1):
+                        return True
+                    else:
+                        if (copyVal == 1):
+                            return validFromCurrent(x,y+1,1)
+                        elif(copyVal == 3):
+                            return validFromCurrent(x+1,y,3)
+                        else:
+                            return validFromCurrent(x-1,y,4)
+                elif (direction == 2):
+                    if (copyVal != 1 and copyVal != 4 and copyVal != 6):
+                        grid[x][y] = copyVal
+                        return False
+                    elif (x == m-1 and y == n-1):
+                        return True
+                    else:
+                        if (copyVal == 1):
+                            return validFromCurrent(x,y-1,2)
+                        elif(copyVal == 4):
+                            return validFromCurrent(x+1,y,3)
+                        else:
+                            return validFromCurrent(x-1,y,4)                
+                elif (direction == 3):
+                        if (copyVal != 2 and copyVal != 5 and copyVal!= 6):
+                            grid[x][y] = copyVal
+                            return False
+                        elif (x == m-1 and y == n-1):
+                            return True
+                        else:
+                            if (copyVal == 2):
+                                return validFromCurrent(x+1,y,3)
+                            elif(copyVal == 5):
+                                return validFromCurrent(x,y-1,2)
+                            else:
+                                return validFromCurrent(x,y+1,1)          
+                else:
+                    if (copyVal != 2 and copyVal != 3 and copyVal!= 4):
+                        grid[x][y] = copyVal
+                        return False
+                    elif (x == m-1 and y == n-1):
+                        return True
+                    else:
+                        if (copyVal == 2):
+                            return validFromCurrent(x-1,y,4)
+                        elif(copyVal == 3):
+                            return validFromCurrent(x,y-1,2)
+                        else:
+                            return validFromCurrent(x,y+1,1) 
+        if grid[0][0] == 1:
+            return validFromCurrent(0,0,1) 
+        elif grid[0][0] == 2:
+            return validFromCurrent(0,0,3)
+        elif grid[0][0] == 3:
+            return validFromCurrent(0,0,1)
+        elif grid[0][0] == 4:
+            return validFromCurrent(0,0,2) or validFromCurrent(0,0,4)
+        elif grid[0][0] == 5:
+            return False
+        else:
+            return validFromCurrent(0,0,3)
