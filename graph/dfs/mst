@@ -1,0 +1,38 @@
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        n = len(points)
+        sortedEdges = []
+        unionArray = [x for x in range(n)]
+        
+        def find(vertex: int) -> int:
+            while (unionArray[vertex] != vertex):
+                vertex = unionArray[vertex]
+                
+            return vertex
+        
+        for i in range(n):
+            for j in range(i+1,n):
+                sortedEdges.append([abs(points[i][0]-points[j][0]) + abs(points[i][1] - points[j][1]),i,j])
+        
+        sortedEdges.sort()
+        cost,length = 0,0
+        #print(sortedEdges)
+        for arr in sortedEdges:
+            first,second = find(arr[1]),find(arr[2])
+            if (first == second):
+                continue
+            else:
+                length += 1
+                cost += arr[0]
+                if (first < second):
+                    unionArray[second] = first
+                else:
+                    unionArray[first] = second
+                
+            if (length >= n-1):
+                break
+        
+        return cost
+                
+                    
+        
