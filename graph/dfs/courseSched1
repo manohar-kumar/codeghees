@@ -1,0 +1,35 @@
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        adjacency = [[] for i in range(numCourses)]
+        for pre in prerequisites:
+            adjacency[pre[0]].append(pre[1])
+        
+        visited = [-1 for x in range(numCourses)]
+        
+        for i in range(numCourses):
+            if (visited[i] == -1):
+                #do dfs
+                stack = []
+                stack.append(i)
+                while len(stack) > 0:
+                    #print(stack)
+                    topper = stack[-1]
+                    if (visited[topper] >= 0):
+                        stack.pop()
+                        visited[topper] = 1
+                        continue
+                    elif (visited[topper] == -1):
+                        for x in adjacency[topper]:
+                            if (x == topper):
+                                return False
+                            elif (visited[x] == 0):
+                                return False
+                            elif (visited[x] == -1):
+                                stack.append(x)
+                        
+                        visited[topper] = 0
+                        
+        return True        
+                
+                
+        
