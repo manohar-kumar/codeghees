@@ -1,0 +1,31 @@
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        #number of edges = 80000
+        m,n = len(matrix),len(matrix[0])
+        visited = [[-1 for x in range(n)] for y in range(m)]
+        
+        solution = 0
+        
+        def dfs(row: int, col: int) -> int:
+            if visited[row][col] != -1:
+                return visited[row][col]
+            direction = [(-1,0),(0,-1),(1,0),(0,1)]
+            
+            maxi = 0
+            for (x,y) in direction:
+                if (row+x >= 0 and row + x < m and col+y >= 0 and col+y < n and matrix[row+x][col+y] > matrix[row][col]):
+                    maxi = max(maxi, dfs(row+x,col+y))
+            
+            visited[row][col] = 1 + maxi
+            return visited[row][col]
+                
+            
+        for i in range(m):
+            for j in range(n):
+                if (visited[i][j] == -1):
+                    #do dfs, point = m*i + j
+                    solution = max(solution,dfs(i,j))
+        
+        return solution
+                        
+                        
