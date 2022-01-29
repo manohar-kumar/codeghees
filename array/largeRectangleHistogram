@@ -1,0 +1,49 @@
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        n = len(heights)
+        leftArr = [0]
+        rightArr = [n-1]
+        left = [0 for i in range(n)]
+        right = [0 for i in range(n)]
+        left[0] = -1
+        right[n-1] = n
+       
+        #calc left
+        for i in range(1,n):
+            if (heights[i] > heights[i-1]):
+                left[i] = i-1
+                leftArr.append(i)
+            else:
+                j = len(leftArr) - 1
+                while (j >= 0 and heights[leftArr[j]] >= heights[i]):
+                    j -= 1
+                if (j == -1):
+                    left[i] = -1
+                else:
+                    left[i] = leftArr[j]
+                while (len(leftArr) > 0 and heights[leftArr[-1]] >= heights[i]):
+                    leftArr.pop()
+                leftArr.append(i)
+        #calc right     
+        for i in range(n-2,-1,-1):
+            if (heights[i] > heights[i+1]):
+                right[i] = i+1
+                rightArr.append(i)
+            else:
+                j = len(rightArr) - 1
+                while (j >= 0 and heights[rightArr[j]] >= heights[i]):
+                    j -= 1
+                if (j == -1):
+                    right[i] = n
+                else:
+                    right[i] = rightArr[j]
+                while (len(rightArr) > 0 and heights[rightArr[-1]] >= heights[i]):
+                    rightArr.pop() 
+                rightArr.append(i)
+                
+        maxAnswer = 0
+        for i in range(n):
+            calc = heights[i]*((i-left[i]) + (right[i]-i) - 1)
+            maxAnswer = max(maxAnswer,calc)
+            
+        return maxAnswer
