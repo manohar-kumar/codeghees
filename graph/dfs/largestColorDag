@@ -1,0 +1,42 @@
+class Solution:
+    def largestPathValue(self, colors: str, edges: List[List[int]]) -> int:
+        n = len(colors)
+        visited = [-1 for i in range(n)]
+        dp = [[0 for x in range(26)] for y in range(n)]
+        adjacency = [[] for i in range(n)]
+        for edge in edges:
+            adjacency[edge[0]].append(edge[1])
+        self.answer = 0
+        
+        
+        def dfs(node: int) -> List[int]:
+            if (self.answer == -1):
+                return []
+            if (visited[node] == 0):
+                self.answer = -1
+                return []
+            elif (visited[node] != -1):
+                return dp[node]
+            else:
+                visited[node] = 0
+                for edge in adjacency[node]:
+                    if (visited[edge] == 0):
+                        self.answer = -1
+                        return []
+                    else:
+                        ans = dfs(edge)
+                        if (self.answer == -1):
+                            return []
+                        for x in range(26):
+                            dp[node][x] = max(dp[node][x], ans[x])
+                             
+                dp[node][ord(colors[node])-97] += 1
+                for x in range(26):
+                    self.answer = max(self.answer,dp[node][x])                 
+                visited[node] = 1     
+                return dp[node]
+        
+        for i in range(n):
+            if (visited[i] == -1):
+                dfs(i)
+        return self.answer    
