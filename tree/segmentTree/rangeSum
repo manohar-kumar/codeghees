@@ -1,0 +1,62 @@
+class Node:
+    def __init__(self, start: int, end: int):
+        self.start = start
+        self.end = end
+        self.sum = 0
+        self.left = None
+        self.right = None
+        
+
+class NumArray:
+    
+    
+    def __init__(self, nums: List[int]):
+        def makeNode(begin: int, end: int) -> Node:
+            if begin == end:
+                root = Node(begin,end)
+                root.sum = nums[begin]
+                return root
+            else:
+                mid = (begin+end)//2
+                root = Node(begin,end)
+                root.left = makeNode(begin,mid)
+                root.right = makeNode(mid+1,end)
+                root.sum = root.left.sum + root.right.sum
+                return root
+        self.root = makeNode(0,len(nums)-1)
+    def update(self, index: int, val: int) -> None:
+        def updateRoot(root: Node) -> int:
+            if (root.left is None and root.right is None):
+                temp = val - root.sum
+                root.sum = val
+                return temp
+            else:
+                mid = (root.start+root.end)//2
+                if index <= mid:
+                    delta = updateRoot(root.left)
+                    root.sum += delta
+                    return delta
+                else:
+                    delta = updateRoot(root.right)
+                    root.sum += delta
+                    return delta
+        updateRoot(self.root)
+        
+    def sumRange(self, left: int, right: int) -> int:
+        def sumRangeNode(root: Node, l : int, r: int) -> int:
+            if (l == root.start and r == root.end):
+                return root.sum
+            else:
+                mid = (root.start + root.end)//2
+                if (r <= mid):
+                    return sumRangeNode(root.left,l,r)
+                elif (l > mid):
+                    return sumRangeNode(root.right,l,r)
+                else:
+                    return sumRangeNode(root.left, l,mid) + sumRangeNode(root.right, mid+1, r)
+        return sumRangeNode(self.root, left, right)
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(index,val)
+# param_2 = obj.sumRange(left,right)
