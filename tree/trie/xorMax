@@ -1,0 +1,61 @@
+class Node:
+    def __init__(self):
+        self.left = None
+        self.right = None
+        
+        
+class Solution:
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        
+        root = Node()
+        twos = []
+        init = 1
+        for i in range(31):
+            twos.append(init)
+            init*=2
+        
+        twos.reverse()
+        
+        def calcAnswer(num: int) -> int:
+            ans,i = 0,0
+            tempRoot = root
+            while i < 31:
+                if (num & twos[i] > 0):
+                    if (tempRoot.left is not None):
+                        tempRoot = tempRoot.left
+                        ans = ans + twos[i]
+                    else:
+                        tempRoot = tempRoot.right
+                        
+                else:
+                    if (tempRoot.right is not None):
+                        tempRoot = tempRoot.right
+                        ans = ans + twos[i]
+                    else:
+                        tempRoot = tempRoot.left
+                if (tempRoot is None):
+                    break
+                
+                i += 1
+            
+            return ans
+        
+        def addToTree(num: int):
+            i = 0
+            tempRoot = root
+            while i < 31:
+                if (num & twos[i] > 0):
+                    if (tempRoot.right is None):
+                        tempRoot.right = Node()
+                    tempRoot = tempRoot.right
+                else:
+                    if (tempRoot.left is None):
+                        tempRoot.left = Node()
+                    tempRoot = tempRoot.left
+                i += 1
+        answer = 0
+        for num in nums:
+            answer = max(answer,calcAnswer(num))
+            addToTree(num)
+        
+        return answer
