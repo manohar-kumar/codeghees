@@ -1,0 +1,24 @@
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        self.answer = []
+        n = len(nums)
+        def recurse(numArr: List[int]) -> List[List[int]]:
+            if (len(numArr) == 0):
+                return [[]]
+            allAnswers = []
+            started = []
+            for i in range(len(numArr)):
+                if numArr[i] not in started:
+                    copyNums = numArr[:]
+                    copyNums.pop(i)
+                    started.append(numArr[i])
+                    answer = recurse(copyNums)
+                    #print(answer)
+                    for x in answer:
+                        x.append(numArr[i])
+                        allAnswers.append(x)
+            
+            return allAnswers
+        soln = recurse(nums)
+        
+        return soln
