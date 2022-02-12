@@ -1,0 +1,55 @@
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        def con(chara) -> int:
+            return ord(chara) - 48
+        if (len(num1) == 1 and num1[0] == '0') or (len(num2) == 1 and num2[0] == '0'):
+            return "0"
+        ans,zeroes = [],0
+        for i in range(len(num1)-1,-1,-1):
+            curr_prod,carry,z = [],0,0
+            
+            while(z < zeroes):
+                curr_prod.append(0)
+                z+=1
+            zeroes+=1
+            for j in range(len(num2)-1,-1,-1):
+                carry += con(num1[i])*con(num2[j]) 
+                curr_prod.append(carry%10)
+                carry = carry//10
+                
+            if (carry > 0):
+                curr_prod.append(carry)
+            curr_prod.reverse()
+            carry,l1,l2 = 0,len(ans)-1, len(curr_prod)-1
+            newans = []
+            while l1 >=0 or l2 >= 0:
+                if (l1 >= 0):
+                    carry += ans[l1]
+                    l1 -= 1
+                if (l2 >= 0):
+                    carry += curr_prod[l2]
+                    l2 -= 1
+                newans.append(carry%10)
+                carry = carry//10
+            if (carry > 0):
+                newans.append(carry)
+           # print(newans)
+            ans = newans
+            ans.reverse()
+        stringans = ""
+        for i in range(len(ans)):
+            stringans += str(ans[i])
+            
+        #stringans.reverse()
+        
+        return stringans
+            
+                
+                
+                    
+                
+                
+                
+                
+                
+            
