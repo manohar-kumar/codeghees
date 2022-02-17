@@ -1,0 +1,15 @@
+class Solution:
+    def maxScoreSightseeingPair(self, values: List[int]) -> int:
+        currAns = 0
+        curr_maxIndex, curr_maxValue = 0, values[0]
+        for i in range(1,len(values)):
+            currAns = max(currAns, values[i] + curr_maxValue + curr_maxIndex-i)
+            if (values[i] + i > curr_maxValue + curr_maxIndex):
+                curr_maxValue = values[i]
+                curr_maxIndex = i
+                
+        
+        return currAns
+        
+        
+        
