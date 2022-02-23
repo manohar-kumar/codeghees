@@ -1,0 +1,21 @@
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        summer = 0
+        for num in nums:
+            summer += num
+        
+        if summer%2 == 1:
+            return False
+        summer= summer/2
+        allSums = set()
+        allSums.add(0)
+        for num in nums:
+            toAdd = []
+            for s in allSums:
+                if s+num == summer:
+                    return True
+                toAdd.append(s+num)
+            for adder in toAdd:
+                allSums.add(adder)
+        
+        return False
